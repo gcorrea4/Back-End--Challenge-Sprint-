@@ -1,3 +1,13 @@
+---
+
+## Conexão com o Front-End
+
+Este repositório contém apenas a API (servidor). Para utilizar a interface completa e visualizar o dashboard, este projeto deve ser executado em conjunto com o repositório do Front-End.
+
+**Repositório do Front-End:** [https://github.com/gcorrea4/Challenge-Sprint]
+
+---
+
 # Turma do Bem - API de Triagem (Back-End)
 
 Este é o motor do projeto, responsável pelo cálculo de urgência dos pacientes e pela persistência de dados do sistema.
@@ -25,7 +35,7 @@ Acesse um novo terminal dentro do ambiente.
 Comando de inicialização: Utilize o comando abaixo para rodar o servidor (ajustado para o caminho padrão de instalação no Windows):
 
  -- CMD -- ( Funciona melhor no CMD padrão do windows )
- 
+
 C:\Users\gabri\AppData\Local\Python\bin\python.exe -m uvicorn main:app --reload
 
 
@@ -46,6 +56,8 @@ Controle de Acesso: Gerencia as permissões entre perfis de Dentista (acesso a p
 main.py: Lógica central e definição de rotas.
 
 dados.json: Armazenamento dos dados em formato JSON.
+
+
 
 
 Challenge Turma do Bem - FIAP 2026
