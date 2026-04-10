@@ -1,5 +1,4 @@
 import warnings
-
 warnings.filterwarnings("ignore") 
 
 from fastapi import FastAPI
@@ -9,9 +8,7 @@ import json
 import os
 import google.generativeai as genai 
 
-
 app = FastAPI()
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,12 +18,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 ARQUIVO_DADOS = "dados.json"
 
 
-genai.configure(api_key="SUA API KEY")
-model = genai.GenerativeModel('gemini-2.5-flash')
+genai.configure(api_key="SUA KEY AQUI")
+model = genai.GenerativeModel('gemini-2.5-flash') 
 
 
 class Paciente(BaseModel):
@@ -35,6 +31,13 @@ class Paciente(BaseModel):
     tipo_dor: str
     tempo_dor: int
     renda: float
+    bairro: str
+
+
+class Dentista(BaseModel):
+    nome: str
+    usuario: str
+    senha: str
     bairro: str
 
 class LoginSchema(BaseModel):
@@ -70,13 +73,35 @@ def salvar_paciente_no_json(paciente_data):
     else:
         conteudo = {"pacientes": [], "dentistas": [], "consultas_agendadas": []}
 
+    if "pacientes" not in conteudo:
+        conteudo["pacientes"] = []
+
     conteudo["pacientes"].append(paciente_data)
     
     with open(ARQUIVO_DADOS, "w", encoding="utf-8") as f:
         json.dump(conteudo, f, ensure_ascii=False, indent=4)
 
 
+@app.post("/cadastrar-dentista")
+async def api_cadastrar_dentista(d: Dentista):
+    if os.path.exists(ARQUIVO_DADOS):
+        with open(ARQUIVO_DADOS, "r", encoding="utf-8") as f:
+            try:
+                conteudo = json.load(f)
+            except:
+                conteudo = {"pacientes": [], "dentistas": [], "consultas_agendadas": []}
+    else:
+        conteudo = {"pacientes": [], "dentistas": [], "consultas_agendadas": []}
 
+    if "dentistas" not in conteudo:
+        conteudo["dentistas"] = []
+
+    conteudo["dentistas"].append(d.dict())
+    
+    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as f:
+        json.dump(conteudo, f, ensure_ascii=False, indent=4)
+
+    return {"status": "sucesso", "mensagem": f"Dentista {d.nome} cadastrado com sucesso em {d.bairro}!"}
 
 @app.post("/cadastrar-paciente")
 async def api_cadastrar_paciente(p: Paciente):
@@ -94,12 +119,31 @@ async def listar_pacientes():
             return dados.get("pacientes", [])
     return []
 
+
 @app.post("/login")
 async def login(auth: LoginSchema):
+    
+    if os.path.exists(ARQUIVO_DADOS):
+        with open(ARQUIVO_DADOS, "r", encoding="utf-8") as f:
+            try:
+                dados = json.load(f)
+                for dentista in dados.get("dentistas", []):
+                    if dentista["usuario"] == auth.usuario and dentista["senha"] == auth.senha:
+                        return {
+                            "status": "sucesso", 
+                            "role": "dentista", 
+                            "nome": dentista["nome"],
+                            "bairro": dentista["bairro"] 
+                        }
+            except:
+                pass
+    
+    
     if auth.usuario == "dentista" and auth.senha == "123":
-        return {"status": "sucesso", "role": "dentista", "nome": "Dr. Gabriel"}
+        return {"status": "sucesso", "role": "dentista", "nome": "Dr. Gabriel", "bairro": "Tatuapé"}
     if auth.usuario == "paciente" and auth.senha == "123":
-        return {"status": "sucesso", "role": "paciente", "nome": "Paciente Teste"}
+        return {"status": "sucesso", "role": "paciente", "nome": "Paciente Teste", "bairro": "N/A"}
+    
     return {"status": "erro", "message": "Usuário ou senha incorretos"}
 
 @app.delete("/paciente/{nome}")
