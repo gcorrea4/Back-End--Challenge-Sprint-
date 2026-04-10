@@ -1,5 +1,24 @@
 {
-    "pacientes": [],
+    "pacientes": [
+        {
+            "nome": "Bruno",
+            "idade": 10,
+            "tipo_dor": "dente quebrado",
+            "tempo_dor": 5,
+            "renda": 1.0,
+            "bairro": "Parque do Lago",
+            "urgencia": 5
+        },
+        {
+            "nome": "Ganso",
+            "idade": 12,
+            "tipo_dor": "leve",
+            "tempo_dor": 1,
+            "renda": 5.0,
+            "bairro": "Morumbi",
+            "urgencia": 1
+        }
+    ],
     "dentistas": [],
     "consultas_agendadas": []
 }
