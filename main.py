@@ -1,5 +1,5 @@
 import warnings
-# ISSO AQUI CALA A BOCA DO TERMINAL E ESCONDE O AVISO VERMELHO
+
 warnings.filterwarnings("ignore") 
 
 from fastapi import FastAPI
@@ -7,12 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import json
 import os
-import google.generativeai as genai # Usando a versão estável
+import google.generativeai as genai 
 
-# 1. CRIA O APP PRIMEIRO (Evita o NameError)
+
 app = FastAPI()
 
-# 2. CONFIGURA O CORS
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,14 +21,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 3. VARIÁVEIS GLOBAIS E CONFIGURAÇÃO DA IA
+
 ARQUIVO_DADOS = "dados.json"
 
-# Configuração da IA (Versão antiga e estável)
-genai.configure(api_key="AIzaSyCxibJ_weiL2zcgGjk2A7PMtkM7JdZzNjo")
+
+genai.configure(api_key="SUA API KEY")
 model = genai.GenerativeModel('gemini-2.5-flash')
 
-# 4. MODELOS DE DADOS
+
 class Paciente(BaseModel):
     nome: str
     idade: int
@@ -44,7 +44,7 @@ class LoginSchema(BaseModel):
 class PerguntaIA(BaseModel):
     texto: str
 
-# 5. FUNÇÕES DE LÓGICA
+
 def calcular_urgencia(tipo_dor, tempo_dor, renda):
     urgencia = 0
     if tipo_dor == "forte":
@@ -76,9 +76,7 @@ def salvar_paciente_no_json(paciente_data):
         json.dump(conteudo, f, ensure_ascii=False, indent=4)
 
 
-# ==========================================
-# 6. ROTAS DA API
-# ==========================================
+
 
 @app.post("/cadastrar-paciente")
 async def api_cadastrar_paciente(p: Paciente):
