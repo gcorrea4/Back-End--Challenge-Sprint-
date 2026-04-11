@@ -4,7 +4,7 @@ Este é o motor do projeto, responsável pelo cálculo de urgência dos paciente
 
 ---
 
-## 🔗 Conexão com o Front-End
+##  Conexão com o Front-End
 
 Este repositório contém apenas a API (servidor). Para utilizar a interface completa e visualizar o dashboard, este projeto deve ser executado em conjunto com o repositório do Front-End.
 
@@ -12,7 +12,7 @@ Este repositório contém apenas a API (servidor). Para utilizar a interface com
 
 ---
 
-## ⚙️ Pré-requisitos
+##  Pré-requisitos
 
 O sistema exige o ambiente Python configurado. Caso não possua, siga as etapas abaixo:
 
@@ -28,7 +28,7 @@ O sistema exige o ambiente Python configurado. Caso não possua, siga as etapas 
 
 ---
 
-## 🚀 Instruções para Execução
+##  Instruções para Execução
 
 1. Abra a pasta deste projeto no VS Code.
 2. Abra um novo terminal dentro do VS Code (`Ctrl` + `` ` `` ou `Terminal > New Terminal`).
@@ -42,7 +42,7 @@ O sistema estará ativo e pronto para uso quando a mensagem `Application startup
 
 ---
 
-## ✨ Funcionalidades da API
+##  Funcionalidades da API
 
 - **Cálculo de Urgência:** Processa os dados de cadastro e define a prioridade (Alta, Média ou Baixa) com base nos critérios de nível de dor, tempo de espera e renda.
 - **Geolocalização (Match):** Fornece os dados filtrados por bairro para conectar o paciente ao consultório mais próximo.
